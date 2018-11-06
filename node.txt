@@ -1,0 +1,15 @@
+npm install -g express-generator
+express --version
+
+express server
+htmlÄ£°å
+npm i ejs --save
+app.engine('.html', ejs.__express);
+app.set('view engine', 'html');
+
+npm i pm2 -g
+
+ pm2 start www
+ pm2 stop www
+
+npm install mysql
