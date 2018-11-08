@@ -1,4 +1,4 @@
-npm install -g express-generator
+npm install -g express-generator
 express --version
 
 express server
@@ -9,7 +9,8 @@ app.set('view engine', 'html');
 
 npm i pm2 -g
 
- pm2 start www
- pm2 stop www
+pm2 start www
+pm2 stop www
+pm2 logs www
 
 npm install mysql
