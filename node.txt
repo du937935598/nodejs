@@ -14,3 +14,6 @@ pm2 stop www
 pm2 logs www
 
 npm install mysql
+
+
+pm2 start ./bin/www --watch
