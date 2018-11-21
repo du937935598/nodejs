@@ -24,9 +24,7 @@
         <li class="layui-nav-item">
           <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改信息</a></dd>
-            <dd><a href="javascript:;">安全管理</a></dd>
-            <dd><a href="javascript:;">退了</a></dd>
+            <dd class="exit"><a href="javascript:;">退出</a></dd>
           </dl>
         </li>
       </ul>
@@ -94,6 +92,7 @@
         </div>
       </form>
     </div>
+    <div class="tips"></div>
   </div>
   <script type="text/javascript" src="/js/jquery.min.js"></script>
   <script type="text/javascript" src="/layui/layui.js"></script>
@@ -106,6 +105,27 @@
       form.on('submit(formDemo)', function(data){
         layer.msg(JSON.stringify(data.field));
         return false;
+      });
+
+      // 退出
+      $('.exit').click(function(){
+        $.ajax({
+            type: "get",
+            url: "/admin/logout",
+            success: function(res){
+              if(res.ret_code != 0){
+                $('.tips').text(res.ret_msg).css('display','block').removeClass('button-success').addClass('button-danger');
+              }else{
+                $('.tips').text(res.ret_msg+',正在跳转....').css('display','block').removeClass('button-danger').addClass('button-success');
+                setTimeout(function(){
+                  window.location.href = '/admin/login';
+                },2000)
+              }
+            },
+            error:function(err){
+              console.log(err);
+            }
+        });
       });
     });
     </script> 

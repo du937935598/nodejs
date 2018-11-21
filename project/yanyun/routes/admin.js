@@ -14,6 +14,19 @@ router.get('/', function(req, res, next) {
   res.render('admin/index', { title: 'users demo1' });
 });
 
+// 登录退出
+router.get('/logout', function(req, res, next) {
+  req.session.destroy(function(err) {
+    if(err){
+        res.json({ret_code: 2, ret_msg: '退出登录失败'});
+        return;
+    }
+    req.session.loginUser = null;
+    res.clearCookie(identityKey);
+    res.json({ret_code: 0, ret_msg: '退出登录成功'});
+  });
+});
+
 // 登录界面
 router.get('/login', function(req, res, next) {
   var sess = req.session;
@@ -56,5 +69,6 @@ router.get('/addForm', function(req, res, next) {
   }
   res.render('admin/addForm', { title: 'users demo1' });
 });
+
 
 module.exports = router;
