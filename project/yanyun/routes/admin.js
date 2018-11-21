@@ -45,4 +45,16 @@ router.post('/login/identityKey', function(req, res, next) {
   });
 });
 
+// 订单列表
+router.get('/addForm', function(req, res, next) {
+  var sess = req.session;
+  var loginUser = sess.loginUser;
+  var isLogined = !!loginUser;
+  if(!isLogined){
+    res.redirect('/admin/login');
+    return;
+  }
+  res.render('admin/addForm', { title: 'users demo1' });
+});
+
 module.exports = router;
