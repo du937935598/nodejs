@@ -20,12 +20,10 @@ router.get('/', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if(err){
-      return res.json({ret_code: 2, ret_msg: '退出登录失败'});
+      return res.jsonp({ret_code: 2, ret_msg: '退出登录失败'});
     }
-    req.session.loginUser = null;
-    req.session.userid = null;
-    res.clearCookie(identityKey);
-    return res.json({ret_code: 0, ret_msg: '退出登录成功'});
+    res.clearCookie('idkey')
+    return res.jsonp({ret_code: 0, ret_msg: '退出登录成功'});
   });
 });
 
@@ -37,7 +35,7 @@ router.get('/login', function(req, res, next) {
   if(isLogined){
     return res.redirect('/admin/');
   }
-  return res.render('admin/login', { title: 'users demo' });
+  return res.render('admin/login');
 });
 
 // 用户认证
@@ -63,29 +61,41 @@ router.post('/login/identityKey', function(req, res, next) {
 // 文件上传
 router.post('/file_upload',function(req, res,next){
   //生成multiparty对象，并配置上传目标路径
-  var form = new multiparty.Form({uploadDir: './upload/picture'});
-
-  //上传完成后处理
+  var form = new multiparty.Form({uploadDir: './public/files'});
   form.parse(req, function(err, fields, files) {
-    var obj ={};
-    var filesTmp = JSON.stringify(files,null,2);
+    var filesTmp = JSON.stringify(files);
     if(err){
       console.log('parse error: ' + err);
-    }else {
+    } else {
+      var extName = '';  //后缀名
+      switch (JSON.parse(filesTmp).file[0].headers['content-type']) {
+        case 'image/pjpeg':
+          extName = 'jpg';
+          break;
+        case 'image/jpeg':
+          extName = 'jpg';
+          break;
+        case 'image/png':
+          extName = 'png';
+          break;
+        case 'image/x-png':
+          extName = 'png';
+          break;
+      }
+      if(extName.length == 0){
+        return res.jsonp({ret_code: 2, message: "只支持png和jpg格式图片!"});
+      }
       var inputFile = JSON.parse(filesTmp).file[0];
-      var uploadedPath = inputFile.path;
-      var dstPath = './upload/picture/' + inputFile.originalFilename;
-
+      var defaultPath = inputFile.path;
+      var imagePath = new Date().getTime() + '-' + Math.floor((Math.random()*9+1)*1000) + '.' + extName;
+      var newPath = './public/files/' + imagePath;
+      var userPath = '/files/' + imagePath;
       //重命名为真实文件名
-      fs.rename(uploadedPath, dstPath, function(err) {
+      fs.rename(defaultPath, newPath, function(err) {
         if(err){
-          console.log('rename error: ' + err);
-          res.writeHead(200, {'content-type': 'text/plain;charset=utf-8'});
-          return res.end("{'status':200, 'message': '上传失败！'}");
+          return res.jsonp({ret_code: 1, message: "上传失败！"});
         } else {
-          console.log('rename ok');                
-          res.writeHead(200, {'content-type': 'text/plain;charset=utf-8'});
-          return res.end("{'status':400, 'message': '上传成功！', 'uploadedPath': "+uploadedPath+",'dstPath':"+dstPath+"}");
+          return res.jsonp({ret_code: 0, message: "上传成功！", defaultPath: defaultPath, newPath: newPath,userPath: userPath});
         }
       });
     }
@@ -100,8 +110,21 @@ router.get('/addForm', function(req, res, next) {
   if(!isLogined){
     return res.redirect('/admin/login');
   }
-  return res.render('admin/addForm', { title: 'users demo1' });
+  return res.render('admin/addForm');
 });
 
+// 订单添加
+router.post('/addEdit', function(req, res, next) {
+  var sess = req.session;
+  var sql = "insert menuList(title,imageUrl,descs) value ('"+req.body.title+"','"+req.body.files+"','"+req.body.desc+"')";
+  // return res.jsonp({sql: sql})
+  db.query(sql, function (err,result) {
+    if(result){
+      return res.jsonp({ret_code: 0, ret_msg: '添加成功',result: result});                           
+    }else{
+      return res.jsonp({ret_code: 1, ret_msg: '添加失败',result: result});                           
+    }
+  });
+});
 
 module.exports = router;

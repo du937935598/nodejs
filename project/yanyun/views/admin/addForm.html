@@ -37,16 +37,17 @@
         <div class="layui-form-item">
           <label class="layui-form-label">产品标题</label>
           <div class="layui-input-block">
-            <input type="text" name="title" required  lay-verify="required" placeholder="请输入产品标题" autocomplete="off" class="layui-input">
+            <input type="text" name="title" required lay-verify="required" placeholder="请输入产品标题" autocomplete="off" class="layui-input">
           </div>
         </div>
         <div class="layui-form-item">
-          <label class="layui-form-label">图片上传</label>
+          <label class="layui-form-label">产品图片</label>
           <div class="layui-input-block">
             <div class="layui-upload">
               <button type="button" class="layui-btn" id="updated">上传图片</button>
               <div class="layui-upload-list">
                 <img class="layui-upload-img" id="updatedSrc">
+                <input type="text" name="file" required lay-verify="required" placeholder="请选择产品图片" value="" class="filePath">
                 <p id="updatedErr"></p>
               </div>
             </div> 
@@ -55,12 +56,12 @@
         <div class="layui-form-item layui-form-text">
           <label class="layui-form-label">产品描述</label>
           <div class="layui-input-block">
-            <textarea name="desc" placeholder="请输入产品描述" class="layui-textarea"></textarea>
+            <textarea name="desc" required lay-verify="required" placeholder="请输入产品描述" class="layui-textarea"></textarea>
           </div>
         </div>
         <div class="layui-form-item">
           <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="button" class="layui-btn" lay-submit lay-filter="addForm">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
           </div>
         </div>
@@ -77,6 +78,8 @@
       var form = layui.form;
       var $ = layui.jquery;
       var upload = layui.upload;
+      // 上传文件地址
+
 
       //普通图片上传
       var uploadInst = upload.render({
@@ -91,15 +94,13 @@
         done: function(res){
           //如果上传失败
           console.log(res);
-          if(res.code > 0){
-            return layer.msg('上传失败');
-          }
-          //上传成功
+          //表单初始赋值
+          $('.filePath').val(res.userPath);
         },
         error: function(){
           //演示失败状态，并实现重传
           var demoText = $('#updatedErr');
-          demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+          demoText.html('<span style="color: #FF5722;">上传失败2</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
           demoText.find('.demo-reload').on('click', function(){
             uploadInst.upload();
           });
@@ -107,9 +108,29 @@
       });
 
       //监听提交
-      form.on('submit(formDemo)', function(data){
-        layer.msg(JSON.stringify(data.field));
-        return false;
+      form.on('submit(addForm)', function(data){
+        var title = data.field.title;
+        var file = data.field.file;
+        var desc = data.field.desc;
+        $.ajax({
+            type: "post",
+            url: "/admin/addEdit",
+            data: {title: title, files: file, desc: desc},
+            success: function(res){
+              if(res.ret_code !== 0){
+                $('.tips').text(res.ret_msg).css('display','block').removeClass('button-success').addClass('button-danger');
+              }else{
+                $('.tips').text(res.ret_msg+',正在跳转....').css('display','block').removeClass('button-danger').addClass('button-success');
+                setTimeout(function(){
+                  window.location.href = '/admin/login';
+                },2000)
+              }
+            },
+            error:function(err){
+              console.log(err);
+            }
+        });
+        
       });
 
       // 退出
