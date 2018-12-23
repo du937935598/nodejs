@@ -1,0 +1,125 @@
+/* pages/detail/detail.wxss */
+page{
+  background: #fff;
+}
+.detail-wrapper{
+  overflow: hidden;
+  background: #fff;
+  padding-bottom: 130rpx;
+}
+.detail-img{
+  width: 100%;
+  background: #fff;
+  text-align: center;
+}
+.detail-img image{
+  width: 90%;
+}
+.detail-desc{
+  border-top: 1rpx dashed #eee;
+  padding: 30rpx;
+  background: #fff;
+}
+.detail-d-title{
+  font-size: 32rpx;
+  color: #333;
+}
+.detail-d-desc{
+  font-size: 30rpx;
+  color: #999;
+}
+.detail-btn{
+  border-top: 20rpx solid #f4f4f4;
+  background: #fff;
+  overflow: hidden;
+  padding: 30rpx 20rpx;
+}
+.detail-mobile,.detail-address{
+  padding: 0 5rpx;
+  margin-bottom: 20rpx;
+}
+.detail-address{
+  margin-bottom: 40rpx;
+}
+.detail-mobile text,.detail-address text{
+  font-size: 32rpx;
+  color: #333;
+}
+.detail-mobile input,.detail-address input{
+  padding: 10rpx 0 10rpx 0;
+  border-bottom: 1rpx solid #f4f4f4;
+}
+.detail-btn1{
+  display: flex;
+  margin-bottom: 20rpx; 
+  justify-content: space-between;
+}
+.detail-btn1 button{
+  width: 30%;
+  font-size: 32rpx;
+  line-height: 90rpx;
+  color: #666;
+}
+.detail-btn1 button.btn2{
+  background: #88c522;
+  color: #fff;
+}
+
+.detail-sub{
+  position: fixed;
+  bottom: 0rpx;
+  background: #fff;
+  z-index: 2;
+  padding: 20rpx 0;
+  width: 100%;
+  border-top: 1rpx solid #f4f4f4;
+  text-align: center;
+}
+.detail-sub button{
+  width: 92%;
+  background: #88c522;
+  color: #fff;
+  border: 1rpx solid #88c522;
+  font-size: 32rpx;
+  line-height: 90rpx;
+}
+
+/*弹窗*/
+.popup{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}
+.popup-main{
+  width: 80%;
+  background: #fff;
+  border-radius: 10rpx;
+}
+.popup-input{
+  padding: 50rpx 30rpx;
+}
+.popup-input input{
+  width: 96%;
+  padding: 15rpx 2%;
+  border: 1rpx solid #eee;
+}
+.popup-btn{
+  display: flex;
+  border-top: 1rpx solid #f4f4f4;
+}
+.popup-btn text{
+  width: 50%;
+  display: inline-block;
+  text-align: center;
+  background: #fff;
+  border: 1rpx solid #f4f4f4;
+  font-size: 32rpx;
+  border-radius: 10rpx;
+  line-height: 90rpx;
+}

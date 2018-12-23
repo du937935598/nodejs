@@ -1,0 +1,48 @@
+<!--pages/detail/detail.wxml-->
+<view class='detail-wrapper'>
+  <scroll-view>
+    <view class='detail-img'>
+      <image src='{{imgSrc}}' mode='widthFix'></image>
+    </view>
+    <view class='detail-desc'>
+      <view class='detail-d-title'>产品标题</view>
+      <text class='detail-d-desc'>这是描述，内容描述</text>
+    </view>
+    <view class='detail-btn'>
+      <view class='detail-mobile'>
+        <text>请输入手机号</text>
+        <input type='number' bindinput="bindmobile" placeholder='请输入手机号' placeholder-style="font-size: 30rpx;color: #999;" />
+      </view>
+      <view class='detail-address'>
+        <text>请输入地址</text>
+        <input type='text' bindinput="bindaddress" placeholder='请输入地址' placeholder-style="font-size: 30rpx;color: #999;" />
+      </view>
+      <view class='detail-btn1'>
+        <button data-num="1" class="{{detailBtn == '1' ? 'btn2':''}}" bindtap='chooseNum'>1箱</button>
+        <button data-num="5" class="{{detailBtn == '5' ? 'btn2':''}}" bindtap='chooseNum'>5箱</button>
+        <button data-num="10" class="{{detailBtn == '10' ? 'btn2':''}}" bindtap='chooseNum'>10箱</button>
+      </view>
+      <view class='detail-btn1'>
+        <button data-num="50" class="{{detailBtn == '50' ? 'btn2':''}}" bindtap='chooseNum'>50箱</button>
+        <button data-num="100" class="{{detailBtn == '100' ? 'btn2':''}}" bindtap='chooseNum'>100箱</button>
+        <button data-num="101" class="{{detailBtn == '101' ? 'btn2':''}}" bindtap='chooseNum'>{{other}}</button>
+      </view>
+    </view>
+    <view class='detail-sub'>
+      <button bindtap='buy'>立即购买</button>
+    </view>
+
+    <view class='popup' wx:if="{{popups}}">
+      <view class='popup-main'>
+        <view class='popup-input'>
+          <input type='number' bindinput="bindinputs" focus="true" placeholder='请输入箱数' placeholder-style="font-size: 30rpx;color: #999;" value='{{bindinput}}' />
+        </view>
+        <view class='popup-btn'>
+          <text data-numberSub="1" bindtap='numberSub'>取消</text>
+          <text data-numberSub="2" bindtap='numberSub'>确定</text>
+        </view>
+      </view>    
+    </view>
+
+  </scroll-view>
+</view>

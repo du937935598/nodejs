@@ -1,0 +1,44 @@
+/**index.wxss**/
+page{
+  background: #f4f4f4;
+}
+scroll-view{
+  padding-bottom: 20rpx;
+}
+.index-wrapper{
+  overflow: hidden;
+}
+.index-list{
+  width: 41%;
+  float: left;
+  margin-left: 2%;
+  margin-top: 2%;
+  background: #fff;
+  border-radius:10rpx;
+  padding: 3%;
+}
+.index-img{
+  width: 100%;
+  overflow: hidden;
+}
+.index-img image{
+  width: 100%;
+}
+
+.index-desc{
+  text-align: center;
+}
+.index-d-title{
+  font-size: 34rpx;
+  color: #333;
+  line-height: 80rpx;
+  border-bottom: 1rpx dashed #eee;
+}
+.index-d-btn{
+  border-radius: 10rpx;
+  background: #88c522;
+  font-size: 32rpx;
+  color: #fff;
+  line-height: 60rpx;
+  margin-top: 20rpx;
+}

@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<view class='index-wrapper'>
+  <scroll-view>
+    <view class='index-list' wx:for="{{imgSrc}}" wx:key="index" data-uuid="abc12344" bindtap='navigateTo'>
+      <view class="index-img">
+          <image src="{{item}}" mode='widthFix'></image>
+      </view>
+      <view class='index-desc'>
+        <view class='index-d-title'>产品一</view>  
+        <view class='index-d-btn'>立即订购</view>  
+      </view>
+    </view>
+  </scroll-view>
+</view>
